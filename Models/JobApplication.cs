@@ -8,7 +8,8 @@ public class JobApplication
     [Required]
     public string JobTitle { get; set; }
     [Required]
-    public string CompanyName { get; set; }
+    public int CompanyId { get; set; }
+    public Company Company { get; set; } = null!;
     public DateTime DateApplied { get; set; }
     public DateTime? DateInterview { get; set; }
     public ApplicationStatus Status { get; set; }

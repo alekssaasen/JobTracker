@@ -17,15 +17,44 @@ namespace JobTracker.API.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
+            modelBuilder.Entity("JobTracker.API.Models.Company", b =>
+                {
+                    b.Property<int>("CompanyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ApplicationDeadline")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RecruiterEmail")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RecruiterName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RecruiterPhone")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CompanyId");
+
+                    b.ToTable("Companies", (string)null);
+                });
+
             modelBuilder.Entity("JobTracker.API.Models.JobApplication", b =>
                 {
                     b.Property<int>("JobApplicationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DateApplied")
                         .HasColumnType("TEXT");
@@ -42,7 +71,20 @@ namespace JobTracker.API.Migrations
 
                     b.HasKey("JobApplicationId");
 
+                    b.HasIndex("CompanyId");
+
                     b.ToTable("JobApplications");
+                });
+
+            modelBuilder.Entity("JobTracker.API.Models.JobApplication", b =>
+                {
+                    b.HasOne("JobTracker.API.Models.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
                 });
 #pragma warning restore 612, 618
         }

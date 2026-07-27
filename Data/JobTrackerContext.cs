@@ -7,10 +7,15 @@ namespace JobTracker.API.Data;
 public class JobTrackerContext : DbContext
 {
     public DbSet<JobApplication> JobApplications { get; set; }
+    public DbSet<Company> Company { get; set; }
     
     public JobTrackerContext(DbContextOptions<JobTrackerContext> options) : base(options)
     {
        
     }
     
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Company>().ToTable("Companies");
+    }
 }

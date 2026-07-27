@@ -21,7 +21,9 @@ public class JobApplicationsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<JobApplication>>> GetAllJobApplications()
     {
-        var allJobApplications = await _context.JobApplications.ToListAsync();
+        var allJobApplications = await _context.JobApplications
+            .Include(j => j.Company)
+            .ToListAsync();
         
         return allJobApplications;
     }
@@ -29,7 +31,9 @@ public class JobApplicationsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<JobApplication>> GetJobApplication(int id)
     {
-        var jobApplication = await _context.JobApplications.FindAsync(id);
+        var jobApplication = await _context.JobApplications
+            .Include(j => j.Company)
+            .FirstOrDefaultAsync(i => i.JobApplicationId == id);
 
         if (jobApplication == null)
         {
@@ -45,7 +49,7 @@ public class JobApplicationsController : ControllerBase
         var newJobApplication = new JobApplication();
 
         newJobApplication.JobTitle = createJobApplication.JobTitle;
-        newJobApplication.CompanyName = createJobApplication.CompanyName;
+        newJobApplication.CompanyId = createJobApplication.CompanyId;
         newJobApplication.DateApplied = createJobApplication.DateApplied;
         newJobApplication.Status = createJobApplication.Status;
 
@@ -65,7 +69,7 @@ public class JobApplicationsController : ControllerBase
             return NotFound();
         }
         existingJobApplication.JobTitle = updateJobApplication.JobTitle;
-        existingJobApplication.CompanyName = updateJobApplication.CompanyName;
+        existingJobApplication.CompanyId = updateJobApplication.CompanyId;
         existingJobApplication.DateApplied = updateJobApplication.DateApplied ;
         existingJobApplication.DateInterview =  updateJobApplication.DateInterview;
         existingJobApplication.Status = updateJobApplication.Status;
