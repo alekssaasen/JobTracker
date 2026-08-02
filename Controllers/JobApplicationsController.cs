@@ -3,7 +3,6 @@ using JobTracker.API.Dtos;
 using JobTracker.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace JobTracker.API.Controllers;
 
