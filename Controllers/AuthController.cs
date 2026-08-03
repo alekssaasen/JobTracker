@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace JobTracker.API.Controllers;
 
 [ApiController]
-[Route("controller")]
+[Route("[controller]")]
 
 public class AuthController : ControllerBase
 {
@@ -25,7 +25,7 @@ public class AuthController : ControllerBase
         _config = config;
     }
 
-    [HttpPost]
+    [HttpPost("Register")]
     public async Task<ActionResult<string>> Register(RegisterDto register)
     {
         var existingUser = await _context.Users
@@ -52,7 +52,7 @@ public class AuthController : ControllerBase
         return Ok("User registered.");
     }
 
-    [HttpPost]
+    [HttpPost("Login")]
     public async Task<ActionResult<string>> Login(LoginDto login)
     {
         var user = await _context.Users
