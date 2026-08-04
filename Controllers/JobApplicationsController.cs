@@ -1,4 +1,5 @@
-﻿using JobTracker.API.Data;
+﻿using System.Security.Claims;
+using JobTracker.API.Data;
 using JobTracker.API.Dtos;
 using JobTracker.API.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +20,7 @@ public class JobApplicationsController : ControllerBase
         _context = context;
     }
 
-    [HttpGet]
+    [HttpGet("GetAllJobApplications")]
     public async Task<ActionResult<List<JobApplication>>> GetAllJobApplications()
     {
         var allJobApplications = await _context.JobApplications
@@ -47,8 +48,13 @@ public class JobApplicationsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<JobApplication>> PostJobApplication(CreateJobApplicationDto createJobApplication)
     {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        var userIntId = int.Parse(userId!);
+        
         var newJobApplication = new JobApplication();
 
+        newJobApplication.UserId = userIntId;
         newJobApplication.JobTitle = createJobApplication.JobTitle;
         newJobApplication.CompanyId = createJobApplication.CompanyId;
         newJobApplication.DateApplied = createJobApplication.DateApplied;
