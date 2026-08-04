@@ -33,7 +33,7 @@ public class AuthController : ControllerBase
         
         if (existingUser != null)
         {
-            return Forbid();
+            return BadRequest("Email already in use.");
         }
         
         var user = new User();
