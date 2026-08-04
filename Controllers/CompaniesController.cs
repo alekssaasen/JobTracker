@@ -1,6 +1,7 @@
 using JobTracker.API.Data;
 using JobTracker.API.Dtos;
 using JobTracker.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,7 @@ namespace JobTracker.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 
 public class CompaniesController : ControllerBase
 {
