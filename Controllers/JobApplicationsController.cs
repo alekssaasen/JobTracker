@@ -32,13 +32,11 @@ public class JobApplicationsController : ControllerBase
     [HttpGet("GetAllJobApplications")]
     public async Task<ActionResult<List<JobApplication>>> GetAllJobApplications()
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        var userIdInt = int.Parse(userId!);
+        var userId = GetLoggedInUserId();
         
         var allJobApplications = await _context.JobApplications
             .Include(j => j.Company)
-            .Where(i => i.UserId == userIdInt)
+            .Where(i => i.UserId == userId)
             .ToListAsync();
         
         return allJobApplications;
@@ -47,13 +45,11 @@ public class JobApplicationsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<JobApplication>> GetJobApplication(int id)
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        var userIdInt = int.Parse(userId!);
+        var userId = GetLoggedInUserId();
         
         var jobApplication = await _context.JobApplications
             .Include(j => j.Company)
-            .FirstOrDefaultAsync(i => i.JobApplicationId == id && i.UserId == userIdInt);
+            .FirstOrDefaultAsync(i => i.JobApplicationId == id && i.UserId == userId);
 
         if (jobApplication == null)
         {
@@ -66,13 +62,11 @@ public class JobApplicationsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<JobApplication>> PostJobApplication(CreateJobApplicationDto createJobApplication)
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        var userIntId = int.Parse(userId!);
+        var userId = GetLoggedInUserId();
         
         var newJobApplication = new JobApplication();
 
-        newJobApplication.UserId = userIntId;
+        newJobApplication.UserId = userId;
         newJobApplication.JobTitle = createJobApplication.JobTitle;
         newJobApplication.CompanyId = createJobApplication.CompanyId;
         newJobApplication.DateApplied = createJobApplication.DateApplied;
@@ -87,7 +81,10 @@ public class JobApplicationsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult<JobApplication>> UpdateJobApplication(int id, UpdateJobApplicationDto updateJobApplication)
     {
-        var existingJobApplication = await _context.JobApplications.FindAsync(id);
+        var userId = GetLoggedInUserId();
+        
+        var existingJobApplication = await _context.JobApplications
+            .FirstOrDefaultAsync(j => j.UserId == userId && j.JobApplicationId == id);
         
         if (existingJobApplication == null)
         {
@@ -107,7 +104,10 @@ public class JobApplicationsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult<JobApplication>> DeleteJobApplication(int id)
     {
-        var deleteJobApplication = await _context.JobApplications.FindAsync(id);
+        var userId = GetLoggedInUserId();
+        
+        var deleteJobApplication = await _context.JobApplications
+            .FirstOrDefaultAsync(j => j.UserId == userId && j.JobApplicationId == id);
         if (deleteJobApplication == null)
         {
             return NotFound();
