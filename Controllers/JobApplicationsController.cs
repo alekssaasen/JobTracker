@@ -23,8 +23,13 @@ public class JobApplicationsController : ControllerBase
     [HttpGet("GetAllJobApplications")]
     public async Task<ActionResult<List<JobApplication>>> GetAllJobApplications()
     {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        var userIdInt = int.Parse(userId!);
+        
         var allJobApplications = await _context.JobApplications
             .Include(j => j.Company)
+            .Where(i => i.UserId == userIdInt)
             .ToListAsync();
         
         return allJobApplications;
@@ -33,9 +38,13 @@ public class JobApplicationsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<JobApplication>> GetJobApplication(int id)
     {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        var userIdInt = int.Parse(userId!);
+        
         var jobApplication = await _context.JobApplications
             .Include(j => j.Company)
-            .FirstOrDefaultAsync(i => i.JobApplicationId == id);
+            .FirstOrDefaultAsync(i => i.JobApplicationId == id && i.UserId == userIdInt);
 
         if (jobApplication == null)
         {
