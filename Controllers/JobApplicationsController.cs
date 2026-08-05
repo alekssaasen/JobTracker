@@ -19,6 +19,15 @@ public class JobApplicationsController : ControllerBase
     {
         _context = context;
     }
+    
+    private int GetLoggedInUserId()
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        var userIdInt = int.Parse(userId!);
+
+        return userIdInt;
+    }
 
     [HttpGet("GetAllJobApplications")]
     public async Task<ActionResult<List<JobApplication>>> GetAllJobApplications()
