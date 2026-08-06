@@ -12,6 +12,7 @@ public class WorkExperience
     public string Description { get; set; }
     [Required]
     public DateTime Start { get; set; }
+    [Required]
     public DateTime? End { get; set; }
     public int UserId { get; set; }
     public User User { get; set; } = null!;
