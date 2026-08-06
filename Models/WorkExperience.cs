@@ -9,7 +9,7 @@ public class WorkExperience
     public string CompanyName { get; set; }
     [Required]
     public string JobTitle { get; set; }
-    public string Description { get; set; }
+    public string? Description { get; set; }
     [Required]
     public DateTime Start { get; set; }
     [Required]
