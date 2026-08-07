@@ -1,5 +1,6 @@
 using System.Text;
 using JobTracker.API.Data;
+using JobTracker.API.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.IdentityModel.Tokens;
@@ -41,6 +42,8 @@ builder.Services.AddAuthentication("Bearer")
         };
     });
 builder.Services.AddAuthorization();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<AuthenticatedUserService>();
 
 var app = builder.Build();
 

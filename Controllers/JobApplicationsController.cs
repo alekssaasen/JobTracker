@@ -1,11 +1,10 @@
-﻿using System.Security.Claims;
-using JobTracker.API.Data;
+﻿using JobTracker.API.Data;
 using JobTracker.API.Dtos;
 using JobTracker.API.Models;
+using JobTracker.API.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 namespace JobTracker.API.Controllers;
 
 [ApiController]
@@ -14,25 +13,18 @@ namespace JobTracker.API.Controllers;
 public class JobApplicationsController : ControllerBase
 {
     private readonly JobTrackerContext _context;
+    private readonly AuthenticatedUserService _service;
     
-    public JobApplicationsController(JobTrackerContext context)
+    public JobApplicationsController(JobTrackerContext context, AuthenticatedUserService service)
     {
         _context = context;
-    }
-    
-    private int GetLoggedInUserId()
-    {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        var userIdInt = int.Parse(userId!);
-
-        return userIdInt;
+        _service = service;
     }
 
     [HttpGet("GetAllJobApplications")]
     public async Task<ActionResult<List<JobApplication>>> GetAllJobApplications()
     {
-        var userId = GetLoggedInUserId();
+        var userId = _service.GetLoggedInUserId();
         
         var allJobApplications = await _context.JobApplications
             .Include(j => j.Company)
@@ -45,7 +37,7 @@ public class JobApplicationsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<JobApplication>> GetJobApplication(int id)
     {
-        var userId = GetLoggedInUserId();
+        var userId = _service.GetLoggedInUserId();
         
         var jobApplication = await _context.JobApplications
             .Include(j => j.Company)
@@ -62,7 +54,7 @@ public class JobApplicationsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<JobApplication>> PostJobApplication(CreateJobApplicationDto createJobApplication)
     {
-        var userId = GetLoggedInUserId();
+        var userId = _service.GetLoggedInUserId();
         
         var newJobApplication = new JobApplication();
 
@@ -81,7 +73,7 @@ public class JobApplicationsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult<JobApplication>> UpdateJobApplication(int id, UpdateJobApplicationDto updateJobApplication)
     {
-        var userId = GetLoggedInUserId();
+        var userId = _service.GetLoggedInUserId();
         
         var existingJobApplication = await _context.JobApplications
             .FirstOrDefaultAsync(j => j.UserId == userId && j.JobApplicationId == id);
@@ -104,7 +96,7 @@ public class JobApplicationsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult<JobApplication>> DeleteJobApplication(int id)
     {
-        var userId = GetLoggedInUserId();
+        var userId = _service.GetLoggedInUserId();
         
         var deleteJobApplication = await _context.JobApplications
             .FirstOrDefaultAsync(j => j.UserId == userId && j.JobApplicationId == id);
