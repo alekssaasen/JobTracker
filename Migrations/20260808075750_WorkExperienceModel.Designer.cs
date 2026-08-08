@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobTracker.API.Migrations
 {
     [DbContext(typeof(JobTrackerContext))]
-    [Migration("20260806114739_WorkExperienceModel")]
+    [Migration("20260808075750_WorkExperienceModel")]
     partial class WorkExperienceModel
     {
         /// <inheritdoc />
@@ -111,6 +111,39 @@ namespace JobTracker.API.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("JobTracker.API.Models.WorkExperience", b =>
+                {
+                    b.Property<int>("WorkExperienceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("End")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("JobTitle")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("WorkExperienceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WorkExperiences");
+                });
+
             modelBuilder.Entity("JobTracker.API.Models.JobApplication", b =>
                 {
                     b.HasOne("JobTracker.API.Models.Company", "Company")
@@ -126,6 +159,17 @@ namespace JobTracker.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Company");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("JobTracker.API.Models.WorkExperience", b =>
+                {
+                    b.HasOne("JobTracker.API.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
