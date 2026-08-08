@@ -11,6 +11,7 @@ namespace JobTracker.API.Controllers;
 public class WorkExperienceController : ControllerBase
 {
     private readonly JobTrackerContext _context;
+    private readonly AuthenticatedUserService _service;
     
     public WorkExperienceController(JobTrackerContext context)
     {
