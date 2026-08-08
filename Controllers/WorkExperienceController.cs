@@ -15,6 +15,24 @@ public class WorkExperienceController : ControllerBase
     public WorkExperienceController(JobTrackerContext context)
     {
         _context = context;
+        _service = service;
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<WorkExperience>> GetWorkExperienceById(int id)
+    {
+        var userid = _service.GetLoggedInUserId();
+        
+        var workExperience = await _context.WorkExperiences
+            .FirstOrDefaultAsync(j => j.UserId == userid && j.WorkExperienceId == id);
+
+        if (workExperience == null)
+        {
+            return NotFound();
+        }
+
+        return workExperience;
+
     }
     
     
