@@ -13,7 +13,7 @@ public class WorkExperienceController : ControllerBase
     private readonly JobTrackerContext _context;
     private readonly AuthenticatedUserService _service;
     
-    public WorkExperienceController(JobTrackerContext context)
+    public WorkExperienceController(JobTrackerContext context, AuthenticatedUserService service)
     {
         _context = context;
         _service = service;
