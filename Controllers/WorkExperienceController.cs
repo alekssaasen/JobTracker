@@ -82,4 +82,23 @@ public class WorkExperienceController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpDelete("DeleteWorkExperience")]
+    public async Task<ActionResult<WorkExperience>> DeleteWorkExperience(int id)
+    {
+        var userId = _service.GetLoggedInUserId();
+
+        var deleteWorkExperience = await _context.WorkExperiences
+            .FirstOrDefaultAsync(j => j.WorkExperienceId == id && j.UserId == userId);
+
+        if (deleteWorkExperience == null)
+        {
+            return NotFound();
+        }
+        
+        _context.WorkExperiences.Remove(deleteWorkExperience);
+        await _context.SaveChangesAsync();
+        
+        return NoContent();
+    }
 }
