@@ -35,6 +35,23 @@ public class WorkExperienceController : ControllerBase
 
     }
     
-    
+    [HttpPost("PostWorkExperience")]
+    public async Task<ActionResult<WorkExperience>> PostWorkExperience(WorkExperienceDto workExperienceDto)
+    {
+        var userId = _service.GetLoggedInUserId();
+        var workExperience = new WorkExperience();
+        
+        workExperience.UserId = userId;
+        workExperience.CompanyName = workExperienceDto.CompanyName;
+        workExperience.JobTitle = workExperienceDto.JobTitle;
+        workExperience.Description = workExperienceDto.Description;
+        workExperience.Start = workExperienceDto.Start;
+        workExperience.End = workExperienceDto.End;
+
+        _context.WorkExperiences.Add(workExperience);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetWorkExperienceById), new{id = workExperience.WorkExperienceId}, workExperience);
+    }
 
 }
