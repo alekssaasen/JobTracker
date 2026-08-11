@@ -53,5 +53,28 @@ public class SkillController : ControllerBase
 
         return CreatedAtAction(nameof(GetSkillById), new{id = newSkill.SkillId}, newSkill);
     }
+
+    [HttpPut("{id}")]
+
+    public async Task<ActionResult<Skill>> UpdateSkill(int id, SkillDto skillDto)
+    {
+        var userId = _service.GetLoggedInUserId();
+
+        var skill = await _context.Skills
+            .FirstOrDefaultAsync(j => j.UserId == userId && j.SkillId == id);
+
+        if (skill == null)
+        {
+            return NotFound();
+        }
+
+        skill.SkillName = skillDto.SkillName;
+
+        _context.Skills.Update(skill);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+
+    }
     
 }
