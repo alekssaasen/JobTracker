@@ -54,4 +54,29 @@ public class ReferenceController
 
         return CreatedAtAction(nameof(GetReferenceById), new { id = reference.ReferenceId }, reference);
     }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Reference>> UpdateReference(int id, ReferenceDto referenceDto)
+    {
+        var userId = _service.GetLoggedInUserId();
+        
+        var reference = await _context.References
+            .FirstOrDefaultAsync(j => j.ReferenceId == id && j.UserId == userId);
+
+        if (reference == null)
+        {
+            return NotFound();
+        }
+        
+        reference.FirstName = referenceDto.FirstName;
+        reference.LastName = referenceDto.LastName;
+        reference.JobTitle = referenceDto.JobTitle;
+        reference.Email = referenceDto.Email;
+        reference.PhoneNumber = referenceDto.PhoneNumber;
+
+        _context.References.Update(reference);
+        await _context.SaveChangesAsync();
+        
+        return NoContent();
+    }
 }
