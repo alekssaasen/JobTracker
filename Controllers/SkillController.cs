@@ -37,4 +37,21 @@ public class SkillController : ControllerBase
 
         return skill;
     }
+
+    [HttpPost("PostSkill")]
+    public async Task<ActionResult<Skill>> PostSkill(SkillDto skillDto)
+    {
+        var userId = _service.GetLoggedInUserId();
+
+        var newSkill = new Skill();
+
+        newSkill.UserId = userId;
+        newSkill.SkillName = skillDto.SkillName;
+
+        _context.Skills.Add(newSkill);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetSkillById), new{id = newSkill.SkillId}, newSkill);
+    }
+    
 }
