@@ -56,4 +56,48 @@ public class EducationController : ControllerBase
         
         return CreatedAtAction(nameof(GetEducationById), new{id = newEducation.EducationId}, newEducation);
     }
+    
+    [HttpPut("{id}")]
+
+    public async Task<ActionResult<Education>> UpdateEducation(int id, EducationDto educationDto)
+    {
+        var userId = _service.GetLoggedInUserId();
+
+        var education = await _context.Educations
+            .FirstOrDefaultAsync(j => j.UserId == userId && j.EducationId == id);
+
+        if (education == null)
+        {
+            return NotFound();
+        }
+
+        education.SchoolName = educationDto.SchoolName;
+        education.Description = educationDto.Description;
+        education.Start = educationDto.Start;
+        education.End = educationDto.End;
+
+        _context.Educations.Update(education);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<Education>> DeleteEducation(int id)
+    {
+        var userId = _service.GetLoggedInUserId();
+
+        var education = await _context.Educations
+            .FirstOrDefaultAsync(j => j.UserId == userId && j.EducationId == id);
+        
+        if (education == null)
+        {
+            return NotFound();
+        }
+
+        _context.Educations.Remove(education);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
  }
