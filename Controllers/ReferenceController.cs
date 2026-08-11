@@ -36,7 +36,7 @@ public class ReferenceController
     }
 
     [HttpPost("PostReference")]
-    public async Task<ActionResult<Reference>> PostNewReference(int id, ReferenceDto referenceDto)
+    public async Task<ActionResult<Reference>> PostNewReference(ReferenceDto referenceDto)
     {
         var userId = _service.GetLoggedInUserId();
 
