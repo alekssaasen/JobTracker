@@ -12,7 +12,7 @@ public class JobTrackerContext : DbContext
     public DbSet<WorkExperience> WorkExperiences { get; set; }
     public DbSet<Skill> Skills { get; set; }
     public DbSet<Education> Educations { get; set; }
-    
+    public DbSet<Reference> References { get; set; }
     public JobTrackerContext(DbContextOptions<JobTrackerContext> options) : base(options)
     {
        
