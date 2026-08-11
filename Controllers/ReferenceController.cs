@@ -18,4 +18,20 @@ public class ReferenceController
         _context = context;
         _service = service;
     }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Reference>> GetReferenceById(int id)
+    {
+        var userId = _service.GetLoggedInUserId();
+
+        var reference = await _context.References
+            .FirstOrDefaultAsync(j => j.ReferenceId == id && j.UserId == userId);
+
+        if (reference == null)
+        {
+            return NotFound();
+        }
+
+        return reference;
+    }
 }
