@@ -51,7 +51,7 @@ public class JobApplicationsController : ControllerBase
         return jobApplication;
     }
 
-    [HttpPost]
+    [HttpPost("PostJobApplication")]
     public async Task<ActionResult<JobApplication>> PostJobApplication(CreateJobApplicationDto createJobApplication)
     {
         var userId = _service.GetLoggedInUserId();
