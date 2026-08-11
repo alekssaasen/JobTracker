@@ -110,6 +110,42 @@ namespace JobTracker.API.Migrations
                     b.ToTable("JobApplications");
                 });
 
+            modelBuilder.Entity("JobTracker.API.Models.Reference", b =>
+                {
+                    b.Property<int>("ReferenceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("JobTitle")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ReferenceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("References");
+                });
+
             modelBuilder.Entity("JobTracker.API.Models.Skill", b =>
                 {
                     b.Property<int>("SkillId")
@@ -216,6 +252,17 @@ namespace JobTracker.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Company");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("JobTracker.API.Models.Reference", b =>
+                {
+                    b.HasOne("JobTracker.API.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
