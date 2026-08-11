@@ -15,8 +15,8 @@ namespace JobTracker.API.Controllers;
 
 public class SkillController : ControllerBase
 {
-    public readonly JobTrackerContext _context;
-    public readonly AuthenticatedUserService _service;
+    private readonly JobTrackerContext _context;
+    private readonly AuthenticatedUserService _service;
     public SkillController(JobTrackerContext context, AuthenticatedUserService service)
     {
         _context = context;
