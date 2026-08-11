@@ -1,14 +1,17 @@
 using JobTracker.API.Data;
+using JobTracker.API.Dtos;
+using JobTracker.API.Models;
 using JobTracker.API.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobTracker.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 [Authorize]
-public class ReferenceController
+public class ReferenceController : ControllerBase
 {
     private readonly JobTrackerContext _context;
     private readonly AuthenticatedUserService _service;
