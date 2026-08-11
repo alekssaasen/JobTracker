@@ -81,6 +81,26 @@ namespace JobTracker.API.Migrations
                     b.ToTable("JobApplications");
                 });
 
+            modelBuilder.Entity("JobTracker.API.Models.Skill", b =>
+                {
+                    b.Property<int>("SkillId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SkillName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("SkillId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Skills");
+                });
+
             modelBuilder.Entity("JobTracker.API.Models.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -156,6 +176,17 @@ namespace JobTracker.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Company");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("JobTracker.API.Models.Skill", b =>
+                {
+                    b.HasOne("JobTracker.API.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

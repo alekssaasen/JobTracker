@@ -1,6 +1,6 @@
 namespace JobTracker.API.Models;
 
-public class References
+public class Reference
 {
     
 }
