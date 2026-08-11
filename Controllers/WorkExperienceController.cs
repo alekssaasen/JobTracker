@@ -83,7 +83,7 @@ public class WorkExperienceController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("DeleteWorkExperience")]
+    [HttpDelete("{id}")]
     public async Task<ActionResult<WorkExperience>> DeleteWorkExperience(int id)
     {
         var userId = _service.GetLoggedInUserId();
