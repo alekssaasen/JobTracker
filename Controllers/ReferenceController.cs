@@ -79,4 +79,23 @@ public class ReferenceController
         
         return NoContent();
     }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<Reference>> DeleteReference(int id)
+    {
+        var userId = _service.GetLoggedInUserId();
+        
+        var reference = await _context.References
+            .FirstOrDefaultAsync(j => j.ReferenceId == id && j.UserId == userId);
+
+        if (reference == null)
+        {
+            return NotFound();
+        }
+
+        _context.References.Remove(reference);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
 }
