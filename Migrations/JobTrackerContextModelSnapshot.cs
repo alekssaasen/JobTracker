@@ -47,6 +47,35 @@ namespace JobTracker.API.Migrations
                     b.ToTable("Companies", (string)null);
                 });
 
+            modelBuilder.Entity("JobTracker.API.Models.Education", b =>
+                {
+                    b.Property<int>("EducationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SchoolName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("EducationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Educations");
+                });
+
             modelBuilder.Entity("JobTracker.API.Models.JobApplication", b =>
                 {
                     b.Property<int>("JobApplicationId")
@@ -159,6 +188,17 @@ namespace JobTracker.API.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("WorkExperiences");
+                });
+
+            modelBuilder.Entity("JobTracker.API.Models.Education", b =>
+                {
+                    b.HasOne("JobTracker.API.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("JobTracker.API.Models.JobApplication", b =>
