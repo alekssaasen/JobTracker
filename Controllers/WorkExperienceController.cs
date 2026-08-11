@@ -58,7 +58,7 @@ public class WorkExperienceController : ControllerBase
         return CreatedAtAction(nameof(GetWorkExperienceById), new{id = workExperience.WorkExperienceId}, workExperience);
     }
 
-    [HttpPut("UpdateWorkExperience")]
+    [HttpPut("{id}")]
     public async Task<ActionResult<WorkExperience>> UpdateWorkExperience(int id, WorkExperienceDto workExperienceDto)
     {
         var userId = _service.GetLoggedInUserId();
