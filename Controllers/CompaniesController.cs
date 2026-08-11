@@ -20,7 +20,7 @@ public class CompaniesController : ControllerBase
         _context = context;
     }
 
-    [HttpGet]
+    [HttpGet("GetAllCompanies")]
     public async Task<ActionResult<List<Company>>> GetAllCompanies()
     {
         var allCompanies = await _context.Company.ToListAsync();
@@ -41,7 +41,7 @@ public class CompaniesController : ControllerBase
         return company;
     }
 
-    [HttpPost]
+    [HttpPost("PostCompany")]
     public async Task<ActionResult<Company>> PostCompany(CreateCompanyDto createCompany)
     {
         var newCompany = new Company();
