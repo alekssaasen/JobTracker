@@ -38,7 +38,7 @@ public class EducationController : ControllerBase
         return education;
     }
 
-    [HttpPost("{id}")]
+    [HttpPost("PostEducation")]
     public async Task<ActionResult<Education>> PostEducation(EducationDto educationDto)
     {
         var userId = _service.GetLoggedInUserId();
