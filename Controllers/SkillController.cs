@@ -1,4 +1,5 @@
 using JobTracker.API.Data;
+using JobTracker.API.Dtos;
 using JobTracker.API.Models;
 using JobTracker.API.Service;
 using Microsoft.AspNetCore.Authorization;
