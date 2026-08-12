@@ -21,7 +21,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         policy =>
         {
-            policy.WithOrigins("http://localhost:5000") // TODO: Legg til riktig port når frontend er oppe.
+            policy.WithOrigins("http://localhost:5104") 
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
