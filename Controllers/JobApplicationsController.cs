@@ -29,6 +29,7 @@ public class JobApplicationsController : ControllerBase
         var allJobApplications = await _context.JobApplications
             .Include(j => j.Company)
             .Where(i => i.UserId == userId)
+            .AsNoTracking()
             .ToListAsync();
         
         return allJobApplications;

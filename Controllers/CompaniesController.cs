@@ -23,7 +23,9 @@ public class CompaniesController : ControllerBase
     [HttpGet("GetAllCompanies")]
     public async Task<ActionResult<List<Company>>> GetAllCompanies()
     {
-        var allCompanies = await _context.Company.ToListAsync();
+        var allCompanies = await _context.Company
+            .AsNoTracking()
+            .ToListAsync();
 
         return allCompanies;
     }
