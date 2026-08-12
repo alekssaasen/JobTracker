@@ -1,0 +1,61 @@
+@inject HttpClient Http
+
+@page "/Register"
+
+<h3>Register</h3>
+
+<label>First Name</label>
+<input @bind="_firstName"/>
+<label>Last Name</label>
+<input @bind="_lastName"/>
+<label>Email</label>
+<input @bind="_email"/>
+<label>Password</label>
+<input @bind="_password" type="password"/>
+<button @onclick="HandleRegister">Register</button>
+
+@if (!string.IsNullOrEmpty(_message))
+{
+    <p>@_message</p>
+}
+
+@code {
+
+    private string _firstName = string.Empty;
+    private string _lastName = string.Empty;
+    private string _email = string.Empty;
+    private string _password = string.Empty;
+
+    private string _message = string.Empty;
+    
+    public class RegisterUser
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+    
+    private async Task HandleRegister()
+    {
+        var user = new RegisterUser()
+        {
+            FirstName = _firstName,
+            LastName = _lastName,
+            Email = _email,
+            Password = _password
+        };
+
+        var response = await Http.PostAsJsonAsync("Auth/Register", user);
+
+        if (response.IsSuccessStatusCode)
+        {
+            _message = "You are registered!";
+        }
+        else
+        {
+            _message = "Email already in use";
+        }
+
+    }
+}
