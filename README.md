@@ -23,40 +23,6 @@ Et personlig prosjekt hvor jeg bygger en tjeneste for å holde oversikt over job
 
 C#, .NET 10, ASP.NET Core, Entity Framework Core, SQLite, Blazor WebAssembly, Git
 
-## Slik kjører du prosjektet
-
-1. Opprett filen `JobTracker.API/appsettings.Development.json` (den ligger ikke i Git fordi den inneholder en hemmelig nøkkel):
-
-   ```json
-   {
-     "Jwt": {
-       "Key": "en-lang-tilfeldig-tekst-på-minst-32-tegn",
-       "Issuer": "JobTrackerAPI",
-       "Audience": "JobTrackerClient"
-     }
-   }
-   ```
-
-2. Opprett databasen:
-
-   ```
-   cd JobTracker.API
-   dotnet ef database update
-   ```
-
-3. Start API-et (kjører på `http://localhost:5074`):
-
-   ```
-   dotnet run
-   ```
-
-4. Start klienten i et nytt terminalvindu:
-
-   ```
-   cd JobTracker.Client
-   dotnet run
-   ```
-
 ## Planer videre
 
 - Innlogging og beskyttede sider i frontend
